@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>第一章 JavaScript不只是简单的构件块</title>
+</head>
+
+<body>
+    <!-- 1.1JavaScript对象、基本类型和字面值之间的区别-->
+    <!-- js有5种基本数据类型：String Number Boolean和undefined、null-->
+    <!-- 基本类型变量（没有使用new实例化）严格等于字面值，-->
+    <script>
+        var str1 = "aaa";
+        var str2 = String("aaa");
+        var str3 = new String("aaa");
+
+        // 从字符串提取一个列表 
+        var sentence = 'This is one sentence. This is a sentence width a list of items:' + 'cherries, oranges, apples, bananas. That was the list of items.';
+        var start = sentence.indexOf(':');
+        var end = sentence.indexOf('.', start + 1);
+        var listStr = sentence.substring(start + 1, end);
+        var listStr2 = sentence.substr(start + 1, end - start);
+        var fruits = listStr.split(',');
+        console.log(fruits);
+        //数据的遍历，去除空格的方法
+
+        //检查一个存在的、非空的字符串
+
+        //插入一个特殊字符
+
+        //使用新字符串替换模式
+        //replace(reg,replacestr)方法或使用内建的RegExp()对象
+        //正则表达式使用
+
+
+
+        //
+    </script>
+
+</body>
+
+</html>
