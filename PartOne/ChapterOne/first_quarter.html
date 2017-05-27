@@ -7,11 +7,24 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>第一章 JavaScript不只是简单的构件块</title>
 </head>
+<style>
+    #redbox {
+        position: absolute;
+        left: 100px;
+        top: 100px;
+        width: 200px;
+        height: 200px;
+        background-color: red;
+    }
+</style>
 
 <body>
     <!-- 1.1JavaScript对象、基本类型和字面值之间的区别-->
     <!-- js有5种基本数据类型：String Number Boolean和undefined、null-->
     <!-- 基本类型变量（没有使用new实例化）严格等于字面值，-->
+    <div id="redbox">
+
+    </div>
     <script>
         var str1 = "aaa";
         var str2 = String("aaa");
@@ -24,7 +37,7 @@
         var listStr = sentence.substring(start + 1, end);
         var listStr2 = sentence.substr(start + 1, end - start);
         var fruits = listStr.split(',');
-        console.log(fruits);
+        //console.log(fruits);
         //数据的遍历，去除空格的方法
 
         //检查一个存在的、非空的字符串
@@ -37,7 +50,24 @@
 
 
 
-        //
+        //使用带有定时器的函数闭包
+        var intervalId = null;
+        document.getElementById('redbox').addEventListener('click', startBox, false);
+
+        function startBox() {
+            var x = 100;
+            if (intervalId == null) {
+                intervalId = setInterval(
+                    function() {
+                        x += 5;
+                        var left = x + 'px';
+                        document.getElementById('redbox').style.left = left;
+                    }, 100);
+            } else {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
     </script>
 
 </body>
