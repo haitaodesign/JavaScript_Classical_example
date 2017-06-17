@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>缓存计算</title>
+</head>
+
+<body>
+
+    <script>
+        //有缓存计算函数
+        var fibonacci = function() {
+            var memo = [0, 1];
+            var fib = function(n) {
+                var result = memo[n];
+                if (typeof result != "number") {
+                    result = fib(n - 1) + fib(n - 2);
+                    memo[n] = result;
+                }
+                return result;
+            };
+            return fib;
+        }();
+        //无缓存计算函数
+        var fib = function(n) {
+            return n < 2 ? n : fib(n - 1) + fib(n - 2);
+        };
+
+        //计算时间相当长
+        console.time("non-memo");
+        for (var i = 0; i <= 50; i++) {
+            console.log(i + " " + fib(i));
+        }
+        console.timeEnd("non-memo");
+
+        console.time("memo");
+        for (var i = 0; i <= 50; i++) {
+            console.log(i + " " + fibonacci(i));
+        }
+        console.timeEnd("memo");
+    </script>
+</body>
+
+</html>

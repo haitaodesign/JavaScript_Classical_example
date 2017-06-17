@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>可扩展的JS对象</title>
+</head>
+
+<body>
+    <!--<script>
+        //4.1保持对象成员私有
+
+        function Tune(song, artist) {
+            var title = song;
+            //var _title=song;
+            this.concat = function() {
+                return title + " " + artist;
+                // return _title+""+artist;
+            };
+        }
+
+        var happySong = [];
+        happySong[0] = new Tune("百年孤独", "马尔克斯");
+        //构造函数中的变量，不能再对象外访问
+        console.log(happySong[0].title); //undefined
+
+        console.log(happySong[0].concat());
+        //但变量很容易被外部修改
+        happySong[0].title = "testing";
+        console.log(happySong[0].title);
+
+        //可以在变量之前添加下划线表示此变量不能直接访问或者设置
+        //_title
+
+        
+
+    </script>-->
+
+    <!--<script>
+        //4.2 用原型扩展对象
+        //扩展String对象，这种扩展方法慎用
+        var str = 'one';
+        String.prototype.exclaim = function() {
+            if (this.length == 0) return this;
+            return this + '!';
+        };
+        var str2 = 'two';
+        //console.log(str.exclaim());
+        //console.log(str2.exclaim());
+        //实例化一个新的对象，相加其值，并扩展该对象
+        function Tune(title, artist) {
+            this.concatTitleArtist = function() {
+                return title + " " + artist;
+            }
+        }
+        //创建实例，打印出值
+        var happySong = new Tune("Putting one the Ritz", "Ella Fitzgerald");
+
+        //扩展给对象
+        Tune.prototype.addCategory = function(categoryName) {
+            this.category = categoryName;
+        }
+
+        //添加分类
+        happySong.addCategory("Swing");
+
+        var song = "Title and artist: " + happySong.concatTitleArtist() +
+            " Category:" + happySong.category;
+        console.log(song);
+    </script>-->
+
+    <!--<script>
+        //4.3继承一个对象的功能
+
+        //使用Object.create()实现继承
+
+        function origObject() {
+            this.val1 = 'a';
+            this.val2 = 'b';
+        }
+
+        origObject.prototype.returnVal1 = function() {
+            return this.val1;
+        }
+
+        origObject.prototype.returnVal2 = function() {
+            return this.val2;
+        }
+
+        function newObject() {
+            this.val3 = 'c';
+            //call和applay传的参数不同，两者的本质区别是什么?
+            //origObject.call(this);
+            origObject.apply(this, arguments);
+        }
+
+        newObject.prototype = Object.create(origObject.prototype);
+        newObject.prototype.constructor = newObject;
+
+        newObject.prototype.getValues = function() {
+            return this.val1 + " " + this.val2 + " " + this.val3;
+        }
+
+        var obj = new newObject();
+        console.log(obj instanceof newObject);
+        console.log(obj instanceof origObject);
+
+        console.log(obj.getValues());
+
+        
+    </script>-->
+
+    <script>
+        //4.4通过定义一个新的属性来扩展对象
+        var data = {};
+        Object.defineProperty(data, 'type', {
+            value: 'primary',
+            enumerable: true
+        });
+        //console.log(data.type);
+        data.type = 'secondary';
+        //console.log(data.type); //primary
+
+        Object.defineProperty(data, 'id', {
+            value: 1,
+            writable: true,
+        });
+        console.log(data.id);
+        data.id = 300;
+        console.log(data.id);
+
+        for (prop in data) {
+            console.log(prop);
+        }
+    </script>
+</body>
+
+</html>

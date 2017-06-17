@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JS构建块</title>
+</head>
+
+<body>
+    <!--<script>
+        //将一个函数作为参数传递
+        function otherFunction(x, y, z) {
+            x(y, z);
+        }
+
+        //使用函数表达式的形式
+        var parm = function(arg1, arg2) {
+            alert(arg1 + ' ' + arg2);
+        };
+
+        //otherFunction(parm, "Hello", "World!");
+
+        //函数式编程
+
+
+        var nums = [88, 56, 58, 49, 12];
+        var sum = nums.reduce(function(n1, n2) {
+            return n1 + n2;
+        });
+        //console.log(sum);
+
+        //斐波那契求解
+
+        var fibonacci = function(n) {
+            return n < 2 ? 1 : fibonacci(n - 1) + fibonacci(n - 2);
+        };
+
+        //console.log(fibonacci(10));
+
+        //阶乘
+
+        function factorial(n) {
+            console.log(n);
+            return n == 1 ? 1 : n * factorial(n - 1);
+        }
+        //console.log(factorial(4));
+
+        var reverseArray = function(x, index, str) {
+            //console.log(index);
+            return index == 0 ? str : reverseArray(x, --index, (str += " " + x[index]));
+        }
+
+        var array = ['apple', 'orange', 'peach', 'lime'];
+        var str = reverseArray(array, array.length, "");
+        //console.log(str);
+
+        var orderArray = function(x, index, str) {
+            return index = x.length - 1 ? str : orderArray(x, ++index, (str += x[index] + " "));
+        }
+
+
+        //使用定时器和回调防止代码阻塞
+        function noBlock(n, callback) {
+            setTimeout(function() {
+                var val = factorial(n);
+                if (callback && typeof callback == 'function') {
+                    callback(val);
+                }
+            }, 0);
+        }
+
+        //console.log("Top of the morning to you");
+        // noBlock(3, function(n) {
+        //     console.log('first call ends with ' + n);
+        //     noBlock(n, function(n) {
+        //         console.log("final  result is " + n);
+        //     });
+        // });
+
+        // var tst = 0;
+        // for (var i = 0; i < 10; i++) {
+        //     tst += i;
+        // }
+        //console.log("value of tst is " + tst);
+
+        // noBlock(4, function(n) {
+        //     console.log("end result is " + n);
+        // });
+
+        //console.log("not doing too much");
+
+        //闭包
+
+        function greetingMaker(greeting) {
+            function addName(name) {
+                return greeting + ' ' + name;
+            }
+            return addName;
+        }
+
+        // var daytimeGreeting = greetingMaker("Good Day to you");
+        // var nightGreeting = greetingMaker("Good Evening");
+        // console.log(daytimeGreeting("lihaitao"));
+        // console.log(nightGreeting("lihaitao"));
+    </script>-->
+    <!--<script>
+        function makeString(ldelim, str, rdelm) {
+            return ldelim + str + rdelm;
+        }
+
+        function quoteString(str) {
+            return makeString("'", str, "'");
+        }
+
+        function barString(str) {
+            return makeString("-", str, "-");
+        }
+
+        function namedString(str) {
+            return makeString("&#", str, ";");
+        }
+
+        console.log(quoteString('apple'));
+        console.log(barString('apple'));
+        console.log(namedString(169)); 
+    </script>-->
+    <script>
+        //局部函数工厂
+        function partial(fn) {
+            var args = [].slice.call(arguments, 1);
+            console.log(args);
+            return function() {
+                var arr = args.concat([].slice.call(arguments));
+                return fn.apply(this, arr);
+            }
+        }
+
+        function add(a, b) {
+            return a + b;
+        }
+        var add100 = partial(add, 100);
+        console.log(add100);
+        console.log(add100(14, 12, 13));
+
+        function makeString(ldelim, rdelm, str) {
+            return ldelim + str + rdelm;
+        }
+
+        var namedEntity = makeString.bind(undefined, "&#", ";");
+
+        console.log(namedEntity(169));
+    </script>
+
+</body>
+
+</html>
