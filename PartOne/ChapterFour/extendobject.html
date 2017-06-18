@@ -112,7 +112,7 @@
         
     </script>-->
 
-    <script>
+    <!--<script>
         //4.4通过定义一个新的属性来扩展对象
         var data = {};
         Object.defineProperty(data, 'type', {
@@ -134,8 +134,230 @@
         for (prop in data) {
             console.log(prop);
         }
-    </script>
+    </script>-->
 
+    <!--<script>
+        ;
+        (function() {
+            'use strict';
+            var Test = {
+                value1: "one",
+                value2: function() {
+                    return this.value1;
+                }
+            };
+            try {
+                Object.preventExtensions(Test);
+                //严格模式下不能扩展的对象会抛出一个类型错误
+                //isExtensible(obj)判断对象是否可扩展
+                if (Object.isExtensible(Test)) {
+                    Test.value3 = "test";
+                }
+            } catch (e) {
+                console.log(e);
+            }
+
+        })();
+    </script>-->
+
+    <!--<script>
+        //阻止对对象的任何修改
+        ;
+        (function() {
+            'use strict';
+            var test = {
+                value1: "one",
+                value2: function() {
+                    return this.value1;
+                }
+            };
+            try {
+                //冻结对象
+                Object.freeze(test);
+
+                //抛出类型错误的代码,不能修改对象的属性
+                //test.value2 = "two";
+                //不能添加属性
+                //test.newProperty = 'value';
+                var val = 'test';
+
+                //不能定义属性
+                Object.defineProperty(test, 'category', {
+                    get: function() {
+                        return test
+                    },
+                    set: function(value) {
+                        test = value
+                    },
+                    enumerable: true,
+                    configurable: true
+                });
+
+            } catch (e) {
+                console.log(e);
+            }
+
+            //如何判断一个对象是否被冻结
+
+        })();
+    </script>-->
+
+    <!--<script>
+        //4.7 为js对象提供命名空间
+
+        var jscbObject = {
+            //返回元素
+            getElem: function(identifier) {
+                return document.getElementById(identifier);
+            },
+            stripslashs: function(str) {
+                return str.replace(/\\/g, '');
+            },
+            removeAngleBrackets: function(str) {
+                return str.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+        };
+
+        var sample = "<div>testing\changes</div>";
+        var result = jscbObject.stripslashs(sample);
+        result = jscbObject.removeAngleBrackets(result);
+
+        console.log(result);
+    </script>-->
+
+    <!--<script>
+        //单体模式
+        //未来的强者在当下是孤独的
+
+        var mySingleton = (function() {
+
+            //实例存储了该单体的引用
+
+            function init() {
+                //单体
+                //私有方法和变量
+                function privateMethod() {
+                    console.log("I am private");
+                }
+
+                var privateVariable = "I'm also private";
+                var privateRandomNumber = Math.random();
+
+                return {
+                    //公有方法和变量
+                    publicMethod: function() {
+                        console.log("The public can see me!");
+                    },
+                    publicProperty = "I am alse public",
+                    getRandomNumber = function() {
+                        return privateRandomNumber;
+                    }
+                };
+            };
+
+            return {
+                getInstance: function() {
+                    if (!instance) {
+                        instance = init();
+                    }
+                    return instance;
+                }
+            }
+        })();
+    </script>-->
+
+    <!--<script>
+        //控制分配给一个给定函数的作用域
+        //Prototype.bind()使用方法
+
+        window.onload = function() {
+            window.name = "window";
+            var newObject = {
+                name: 'Object',
+                sayGreeting: function() {
+                    alert("Now this is easy, " + this.name);
+                    //bind(this)作用,在嵌套的函数中使用bind方法，将其
+                    //绑定到对象的对象，也就是父对象，不然默认为window对象，
+                    //改变了this的指向
+                    nestedGreeting = function(greeting) {
+                        alert(greeting + " " + this.name);
+                    }.bind(this);
+                    nestedGreeting("hello");
+                }
+            };
+            newObject.sayGreeting("hello");
+        };
+    </script>-->
+
+    <!--bind()在定时器中的使用-->
+
+    <!--<style>
+        #item {
+            font-size: 72pt;
+            margin: 70px auto;
+            width: 100px;
+        }
+    </style>
+    <div id="item">
+        10
+    </div>
+
+    <script>
+        var theCounter = new Counter('item', 10, 0);
+        theCounter.countDown();
+
+        function Counter(id, start, finish) {
+            this.count = this.start = start;
+            this.finish = finish;
+            this.id = id;
+            this.countDown = function() {
+                if (this.count == this.finish) {
+                    this.countDown = null;
+                    return;
+                }
+                document.getElementById(this.id).innerHTML = this.count--;
+                setTimeout(this.countDown.bind(this), 1000);
+            };
+
+        }
+    </script>-->
+
+    <!--<script>
+        //4.9 将对象方法链化
+
+        function Book(title, author) {
+            this.getTitle = function() {
+                return "Tilte: " + title;
+            };
+            this.getAuthor = function() {
+                return "Author: " + author;
+            };
+            this.replaceTitle = function(newTitle) {
+                var oldTitle = title;
+                title = newTitle;
+            };
+            this.replaceAuthor = function(newAuthor) {
+                var oldAuthor = author;
+                author = newAuthor;
+            };
+        }
+        //两个关键点，一个是继承，一个是返回当前对象的引用，实现方法链式调用
+        function TechBook(title, author, category) {
+            this.getCategory = function() {
+                return "Technical Category: " + category;
+            };
+            //继承Book
+            Book.apply(this, arguments);
+            this.changeAuthor = function(newAuthor) {
+                this.replaceAuthor(newAuthor);
+                //支持方法链化所必须的
+                return this; //返回该对象的引用
+            };
+        }
+
+        var newBook = new TechBook("I Know Things", "Smart Author", "tect");
+        console.log(newBook.changeAuthor("Book K. Reader").getAuthor());
+    </script>-->
 
 </body>
 
